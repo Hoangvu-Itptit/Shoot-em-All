@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerCtl : Human
 {
-    public Rigidbody2D rb;
     public GameObject hand;
-    public GameObject joint;
+    public Transform gunPos;
 
     public override void Awake()
     {
@@ -28,6 +29,16 @@ public class PlayerCtl : Human
     {
         base.MoveGun();
         var Ins = LevelCtl.Instance;
-        hand.transform.rotation = Quaternion.FromToRotation(Vector3.up, new Vector3(Ins.mousePos.x, Ins.mousePos.y, 0));
+        var pos = Ins.mousePos - hand.transform.position;
+        // hand.transform.rotation = Quaternion.FromToRotation(Vector3.up, new Vector3(Ins.mousePos.x, Ins.mousePos.y, 0));
+        // hand.transform.rotation = Quaternion.LookRotation(Ins.mousePos);
+        var deg = Mathf.Atan2(pos.y, pos.x) * Mathf.Rad2Deg;
+        hand.transform.rotation =Quaternion.Euler(0,0,deg);
+        // var mousePosition = Input.mousePosition;
+        // var worldMousePosition = cam.ScreenToWorldPoint(mousePosition);
+        // var skeletonSpacePoint = skeletonAnimation.transform.InverseTransformPoint(worldMousePosition);
+        // skeletonSpacePoint.x *= skeletonAnimation.Skeleton.ScaleX;
+        // skeletonSpacePoint.y *= skeletonAnimation.Skeleton.ScaleY;
+        // bone.SetLocalPosition(skeletonSpacePoint);
     }
 }

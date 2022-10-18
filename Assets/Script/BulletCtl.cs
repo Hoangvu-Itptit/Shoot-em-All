@@ -38,28 +38,6 @@ public class BulletCtl : MonoBehaviour
             var Ins = LevelCtl.Instance;
             Ins.RemoveActive(Ins.listActiveBullet, Ins.listUnactiveBullet);
         }
-        //Raypoint();
-    }
-
-    void Raypoint()
-    {
-        var pos = transform.position + velocity.normalized * 0.3f;
-        RaycastHit2D hitInfo = Physics2D.Raycast(pos, velocity, 0);
-        Debug.DrawRay(pos, velocity);
-        if (hitInfo.collider != null)
-        {
-            if (hitInfo.collider.CompareTag(Const.MAPTAG))
-            {
-                Debug.Log(hitInfo.collider.name);
-                Debug.DrawRay(hitInfo.point, hitInfo.normal, Color.yellow);
-                Vector3 reflect = Vector3.Reflect(velocity, hitInfo.normal);
-                Debug.DrawRay(hitInfo.point, reflect);
-                velocity = reflect;
-                // Debug.DrawLine(sprite.transform.position, hit.normal, Color.yellow, 10.0f);
-            }
-        }
-        // Ray rayhit = new Ray(transform.position, velocity);
-        // Debug.DrawRay(transform.position, velocity, Color.red, 0);
     }
 
     private void OnCollisionEnter2D(Collision2D col)

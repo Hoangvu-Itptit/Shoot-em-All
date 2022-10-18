@@ -11,7 +11,6 @@ public class LevelCtl : MonoBehaviour
     [HideInInspector] public Vector3 mousePos;
 
     public GameObject player;
-
     public GameObject bulletPrefabs;
     public List<GameObject> listActiveBullet;
     public List<GameObject> listUnactiveBullet;
@@ -35,7 +34,7 @@ public class LevelCtl : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            var gun = player.transform.position + Vector3.right;
+            var gun = player.GetComponent<PlayerCtl>().gunPos.position;
             
             if (listUnactiveBullet.Count != 0)
             {
