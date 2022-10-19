@@ -1,23 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class LevelCtl : MonoBehaviour
 {
     public static LevelCtl Instance;
 
-    [HideInInspector] public Vector3 mousePos;
-
-    public GameObject player;
+    public PlayerCtl player;
     public GameObject bulletPrefabs;
     public List<GameObject> listActiveBullet;
     public List<GameObject> listUnactiveBullet;
 
     private void Awake()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Instance = this;
     }
 
@@ -30,12 +26,12 @@ public class LevelCtl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
-            var gun = player.GetComponent<PlayerCtl>().gunPos.position;
-            
+            var gun = player.gunPos.position;
+
             if (listUnactiveBullet.Count != 0)
             {
                 listUnactiveBullet[0].transform.position = gun;
@@ -48,8 +44,9 @@ public class LevelCtl : MonoBehaviour
                 return;
             }
 
-            GameObject bullet = Instantiate(bulletPrefabs, gun, quaternion.identity);
+            GameObject bullet = Instantiate(bulletPrefabs, gun, Quaternion.identity);
             bullet.GetComponent<BulletCtl>().velocity = new Vector3(mousePos.x, mousePos.y, 0);
+            listActiveBullet.Add(bullet);
         }
     }
 
@@ -66,6 +63,4 @@ public class LevelCtl : MonoBehaviour
             else index++;
         }
     }
-    
-    
 }
